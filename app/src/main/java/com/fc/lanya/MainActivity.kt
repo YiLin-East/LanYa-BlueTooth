@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * From Android 10 onwards it needs Access Location to search Bluetooth Devices
      */
-    private fun checkForLocationPermission() {
+    public fun checkForLocationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(
                     Manifest.permission.ACCESS_BACKGROUND_LOCATION
@@ -45,12 +45,6 @@ class MainActivity : AppCompatActivity() {
                 Log.i(TAG, "checkForLocationPermission: 有权限权限")
             } else {
                 getPermission()
-//                ActivityCompat.requestPermissions(
-//                    this, arrayOf(
-//                        Manifest.permission.ACCESS_FINE_LOCATION,
-//                        Manifest.permission.ACCESS_BACKGROUND_LOCATION
-//                    ), 1
-//                )
             }
         }
     }

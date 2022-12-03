@@ -105,8 +105,8 @@ class BluetoothReceiver(private val viewmode : MacViewMode?) : BroadcastReceiver
                     viewmode?.upData(nameAndMac.toString())
                 }
 
-                if (i<=5){
-                    s += s
+                if (i<=8){
+                    s=s+"."
                     i++
                 } else {
                     s="."

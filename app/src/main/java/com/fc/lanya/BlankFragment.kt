@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -77,32 +78,46 @@ class BlankFragment : Fragment() {
     @SuppressLint("MissingPermission")
     override fun onResume() {
         super.onResume()
-        button?.setOnClickListener {
-            //getPermission()
-        }
-        button2?.setOnClickListener {
+        val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
-            val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+        button?.setOnClickListener {
+            if (bluetoothAdapter.isEnabled){
+                Toast.makeText(activity,"蓝牙已开启",Toast.LENGTH_LONG).show()
+            } else {
+                bluetoothAdapter.enable()
+            }
+        }
+
+        // 关闭蓝牙
+        bind?.button3?.setOnClickListener {
+            if (!bluetoothAdapter.isEnabled) {
+                Toast.makeText(activity,"蓝牙已关闭",Toast.LENGTH_SHORT).show()
+            } else {
+                bluetoothAdapter.disable()
+            }
+        }
+
+        button2?.setOnClickListener {
             if (bluetoothAdapter.isEnabled) { //打开
                 //开始扫描周围的蓝牙设备,如果扫描到蓝牙设备，通过广播接收器发送广播
                 bluetoothAdapter.startDiscovery()
+            } else {
+                Toast.makeText(activity,"请打开蓝牙",Toast.LENGTH_LONG).show()
             }
             getBlueTooth()
         }
 
+        // 设备信息
         Mac?.nameAndMac?.observe(this){it ->
             bind?.textView2?.text = it
         }
+
+        // 扫描状态
         Mac?.state?.observe(this){it->
             bind?.textView3?.text = it
         }
     }
 
-    fun logs(HashMap : String){
-        Mac?.upData(HashMap)
-        Mac?.nameAndMac?.value = HashMap
-        Log.i("fanchao", "logs: 在fragment中调用")
-    }
 
     fun getBlueTooth(){
         // 输出蓝牙列表
